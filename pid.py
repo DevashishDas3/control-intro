@@ -15,13 +15,14 @@ class PID:
         self.K_i = K_i
         self.K_d = K_d
         self.integral_limit = integral_limit
+        
 
         self.reset()
 
     def reset(self):
         """Reset the PID controller"""
         self.last_error = 0.0
-        self.integral = 0.0
+        self.integral = 0.0 #0.0
         self.last_time = time.time()
 
     def update(self, error, error_derivative=None):
@@ -60,8 +61,12 @@ class PID:
         """
 
         # TODO: Calculate and return the integral term <>
-        error_accumulator += error * dt
-        return min(self.K_i * error_accumulator, self.integral_limit)
+        self.integral += error * dt
+
+        if self.integral is not None:
+            self.integral = min(self.K_i * self.integral, self.integral_limit)
+            
+        return self.integral
 
     def _get_derivative(self, error, dt):
         """Calculate the derivative term
@@ -72,7 +77,7 @@ class PID:
             float: The derivative term
         """
 
-        # TODO: Calculate and return the derivative term
+        # TODO: Calculate and return the derivative term <>
         derivative_term = self.K_d * (error - self.last_error) / dt
         self.last_error = error
 
