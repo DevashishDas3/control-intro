@@ -45,7 +45,7 @@ class PID:
             derivative = error_derivative
 
         # TODO: Calculate the PID output
-        output = (self.K_p * error) + (self.K_i * self.integral) + (self.K_d * derivative)
+        output = (self.K_p * error) + (self.integral) + (derivative)
 
         self.last_error = error
 
