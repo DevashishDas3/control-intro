@@ -64,7 +64,7 @@ class PID:
         self.integral += error * dt
 
         if self.integral is not None:
-            self.integral = min(self.K_i * self.integral, self.integral_limit)
+            self.integral = np.clip(self.K_i * self.integral, -self.integral_limit, self.integral_limit)
             
         return self.integral
 
