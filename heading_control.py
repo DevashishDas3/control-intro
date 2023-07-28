@@ -38,6 +38,7 @@ def set_rotation_power(mav, power=0):
     power = int(power)
 
     set_rc_channel_pwm(mav, 4, 1500 + power * 5)
+    set_rc_channel_pwm(mav, 5, power * 30)
 
 
 def main():
