@@ -29,7 +29,7 @@ def set_rc_channel_pwm(mav, channel_id, pwm=1500):
 def set_rotation_power(mav, power=0):
     """Set rotation power
     Args:
-        power (int, optional): Power value -100 - 100
+        power (int, optional): Power value -100-100
     """
     if power < -100 or power > 100:
         print("Power value out of range.")
@@ -38,7 +38,6 @@ def set_rotation_power(mav, power=0):
     power = int(power)
 
     set_rc_channel_pwm(mav, 4, 1500 + power * 5)
-    set_rc_channel_pwm(mav, 5, power * 30)
 
 
 def main():
@@ -79,7 +78,7 @@ def main():
     # TODO: convert heading to radians
     desired_heading = np.deg2rad(desired_heading_deg)
 
-    pid = PID(-180 , 1.0, 0.0, 100)
+    pid = PID(25, .0, 5.0, 100)
 
     while True:
         # get yaw from the vehicle
@@ -91,6 +90,7 @@ def main():
 
         # calculate error
         error = desired_heading - yaw
+
         print("Error: ", np.rad2deg(error))
 
         while error < 0:
@@ -103,6 +103,7 @@ def main():
             error = -1
         else:
             error = np.sin(error)
+
 
         output = pid.update(error, error_derivative=yaw_rate)
         print("Output: ", output)
